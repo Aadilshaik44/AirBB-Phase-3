@@ -1,0 +1,21 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Admin Home";
+}
+
+<section class="container px-3 py-3">
+    <h1 class="mb-2">AirBB Admin</h1>
+    <p class="text-muted mb-4">Welcome, Administrator! Please select a management area:</p>
+
+    <div class="list-group">
+        <a asp-area="Admin" asp-controller="Residence" asp-action="Index" class="list-group-item list-group-item-action">
+            Manage Residences
+        </a>
+        <a asp-area="Admin" asp-controller="Location" asp-action="Index" class="list-group-item list-group-item-action">
+            Manage Locations
+        </a>
+        <a asp-area="Admin" asp-controller="User" asp-action="Index" class="list-group-item list-group-item-action">
+            Manage Users
+        </a>
+    </div>
+</section>

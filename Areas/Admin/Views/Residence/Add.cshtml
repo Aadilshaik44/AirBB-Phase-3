@@ -1,0 +1,69 @@
+@model AirBB.Models.Residence
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Add Residence";
+}
+
+<h2>Add New Residence</h2>
+
+<form asp-action="Add" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="LocationId" class="form-label">Location</label>
+        <select asp-for="LocationId" asp-items="ViewBag.Locations" class="form-select">
+            <option value="">-- Select Location --</option>
+        </select>
+        <span asp-validation-for="LocationId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="OwnerId" class="form-label">Owner ID</label>
+        <input asp-for="OwnerId" class="form-control" />
+        <span asp-validation-for="OwnerId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="BuiltYear" class="form-label">Built Year</label>
+        <input asp-for="BuiltYear" class="form-control" />
+        <span asp-validation-for="BuiltYear" class="text-danger"></span>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <label asp-for="GuestNumber" class="form-label"></label>
+            <input asp-for="GuestNumber" class="form-control" />
+            <span asp-validation-for="GuestNumber" class="text-danger"></span>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label asp-for="BedroomNumber" class="form-label"></label>
+            <input asp-for="BedroomNumber" class="form-control" />
+            <span asp-validation-for="BedroomNumber" class="text-danger"></span>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label asp-for="BathroomNumber" class="form-label"></label>
+            <input asp-for="BathroomNumber" class="form-control" />
+            <span asp-validation-for="BathroomNumber" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PricePerNight" class="form-label"></label>
+        <input asp-for="PricePerNight" class="form-control" />
+        <span asp-validation-for="PricePerNight" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Residence</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/builtyear.js"></script>
+}

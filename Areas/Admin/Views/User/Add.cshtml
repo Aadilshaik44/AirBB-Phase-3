@@ -1,0 +1,49 @@
+@model AirBB.Models.Client
+@{
+    ViewData["Title"] = "Add User";
+    Layout = "_AdminLayout";
+}
+
+<h2>Add User</h2>
+
+<form asp-action="Add" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    
+    <div class="mb-3">
+        <label asp-for="PhoneNumber" class="form-label"></label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+    
+    <div class="mb-3">
+        <label asp-for="DOB" class="form-label">Date of Birth</label>
+        <input asp-for="DOB" type="date" class="form-control" />
+        <span asp-validation-for="DOB" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="UserType" class="form-label"></label>
+        <select asp-for="UserType" class="form-select">
+            <option value="">-- Select Type --</option>
+            <option value="Client">Client</option>
+            <option value="Owner">Owner</option>
+            <option value="Admin">Admin</option>
+        </select>
+        <span asp-validation-for="UserType" class="text-danger"></span>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Add</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
