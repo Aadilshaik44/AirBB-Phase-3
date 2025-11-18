@@ -15,15 +15,17 @@ namespace AirBB.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: /Admin/Residence/Index
+        
         public async Task<IActionResult> Index()
         {
             var residences = await _context.Residences
-                                    .Include(r => r.Location)
-                                    .OrderBy(r => r.Name)
-                                    .ToListAsync();
+                                         .Include(r => r.Location)
+                                         .Include(r => r.Owner) // <-- FIX: This line is added
+                                         .OrderBy(r => r.Name)
+                                         .ToListAsync();
             return View(residences);
         }
+        
         
         private void LoadLocations(int? selectedId = null)
         {
@@ -31,15 +33,28 @@ namespace AirBB.Areas.Admin.Controllers
                 "LocationId", "Name", selectedId);
         }
 
-        // GET: /Admin/Residence/Add
+        
+        private void LoadOwners(int? selectedId = null)
+        {
+            ViewBag.Owners = new SelectList(_context.Clients
+                .Where(c => c.UserType.ToLower() == "owner") 
+                .OrderBy(c => c.Name), 
+                "UserId", "Name", selectedId); 
+        }
+
+        
         [HttpGet]
         public IActionResult Add()
         {
+            ViewBag.Action = "Add";
             LoadLocations();
-            return View(new Residence() { BuiltYear = DateTime.Now.Year }); // Default year
+            LoadOwners();
+            ModelState.Clear(); 
+            
+            return View(new Residence());
         }
 
-        // POST: /Admin/Residence/Add
+        
         [HttpPost]
         public async Task<IActionResult> Add(Residence residence)
         {
@@ -51,12 +66,13 @@ namespace AirBB.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // Reload locations if validation fails
+            ViewBag.Action = "Add";
             LoadLocations(residence.LocationId);
+            LoadOwners(residence.OwnerId);
             return View(residence);
         }
 
-        // GET: /Admin/Residence/Edit/{id}
+        
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -65,11 +81,14 @@ namespace AirBB.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.Action = "Edit";
             LoadLocations(residence.LocationId);
+            LoadOwners(residence.OwnerId);
             return View(residence);
         }
 
-        // POST: /Admin/Residence/Edit/{id}
+        
         [HttpPost]
         public async Task<IActionResult> Edit(Residence residence)
         {
@@ -81,18 +100,20 @@ namespace AirBB.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
             
-            // Reload locations if validation fails
+            ViewBag.Action = "Edit";
             LoadLocations(residence.LocationId);
+            LoadOwners(residence.OwnerId);
             return View(residence);
         }
 
-        // GET: /Admin/Residence/Delete/{id}
+       
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
             var residence = await _context.Residences
-                                    .Include(r => r.Location)
-                                    .FirstOrDefaultAsync(r => r.ResidenceId == id);
+                                        .Include(r => r.Location)
+                                        .Include(r => r.Owner) // <-- FIX: This line is added
+                                        .FirstOrDefaultAsync(r => r.ResidenceId == id);
             if (residence == null)
             {
                 return NotFound();
@@ -100,7 +121,7 @@ namespace AirBB.Areas.Admin.Controllers
             return View(residence);
         }
 
-        // POST: /Admin/Residence/Delete/{id}
+        
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

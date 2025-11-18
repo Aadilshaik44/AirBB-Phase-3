@@ -12,7 +12,7 @@ public class BuiltYearAttribute : ValidationAttribute, IClientModelValidator
         _maxAgeYears = maxAgeYears;
     }
 
-    // Server-side Validation
+    
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
         if (value is int year)
@@ -29,11 +29,11 @@ public class BuiltYearAttribute : ValidationAttribute, IClientModelValidator
             return ValidationResult.Success;
         }
         
-        // If value is null or not an int, let [Required] handle it
+        
         return ValidationResult.Success;
     }
 
-    // Client-side Validation (adds data-val attributes)
+    
     public void AddValidation(ClientModelValidationContext context)
     {
         if (!context.Attributes.ContainsKey("data-val"))

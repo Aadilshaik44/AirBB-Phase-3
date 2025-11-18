@@ -66,5 +66,22 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="~/js/builtyear.js"></script>
+    
+    <script>
+        
+        jQuery.validator.addMethod("builtyear", function (value, element, param) {
+            if (value === "") return true; // Let required validator handle empty
+            
+            var year = parseInt(value);
+            var currentYear = new Date().getFullYear();
+            var maxAge = parseInt(param);
+            var minYear = currentYear - maxAge;
+
+            
+            return !isNaN(year) && year <= currentYear && year >= minYear;
+        });
+
+        
+        jQuery.validator.unobtrusive.adapters.addSingleVal("builtyear", "maxyears");
+    </script>
 }

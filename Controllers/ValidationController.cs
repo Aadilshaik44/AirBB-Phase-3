@@ -12,10 +12,10 @@ public class ValidationController : Controller
         _context = context;
     }
 
-    // Remote validation action
+    
     public IActionResult CheckOwner(int ownerId)
     {
-        // Check if user exists AND has UserType "Owner"
+        
         bool exists = _context.Clients.Any(c => c.UserId == ownerId && c.UserType == "Owner");
         
         if (!exists)

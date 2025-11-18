@@ -25,7 +25,7 @@ public class ReservationsController : Controller
         return View(list);
     }
 
-    // ==== MOVED HERE from ResidenceController ====
+
     [HttpPost]
     public IActionResult Reserve(int id, string start, string end)
     {
@@ -53,7 +53,7 @@ public class ReservationsController : Controller
         _ctx.Reservations.Add(res);
         _ctx.SaveChanges();
 
-        // update cookie + session badge
+        
         var jar = new AirBBCookies(Request.Cookies, Response.Cookies);
         var ids = jar.GetReservationIds();
         ids.Add(res.ReservationId);
@@ -75,7 +75,7 @@ public class ReservationsController : Controller
             _ctx.Reservations.Remove(r);
             _ctx.SaveChanges();
 
-            // keep cookie + session in sync
+            
             var jar = new AirBBCookies(Request.Cookies, Response.Cookies);
             var ids = jar.GetReservationIds();
             ids.Remove(id);

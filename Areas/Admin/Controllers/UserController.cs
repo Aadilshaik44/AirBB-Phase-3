@@ -10,20 +10,20 @@ namespace AirBB.Areas.Admin.Controllers
         private readonly AirBnbContext _context;
         public UserController(AirBnbContext context) => _context = context;
 
-        // GET: /Admin/User/Index
+        
         public async Task<IActionResult> Index()
         {
             return View(await _context.Clients.ToListAsync());
         }
 
-        // GET: /Admin/User/Add
+        
         [HttpGet]
         public IActionResult Add()
         {
             return View(new Client());
         }
 
-        // POST: /Admin/User/Add
+        
         [HttpPost]
         public async Task<IActionResult> Add(Client client)
         {
@@ -37,7 +37,7 @@ namespace AirBB.Areas.Admin.Controllers
             return View(client);
         }
 
-        // GET: /Admin/User/Edit/{id}
+        
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -49,7 +49,7 @@ namespace AirBB.Areas.Admin.Controllers
             return View(client);
         }
 
-        // POST: /Admin/User/Edit/{id}
+        
         [HttpPost]
         public async Task<IActionResult> Edit(Client client)
         {
@@ -63,7 +63,7 @@ namespace AirBB.Areas.Admin.Controllers
             return View(client);
         }
 
-        // GET: /Admin/User/Delete/{id}
+       
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
@@ -75,7 +75,7 @@ namespace AirBB.Areas.Admin.Controllers
             return View(client);
         }
 
-        // POST: /Admin/User/Delete/{id}
+        
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

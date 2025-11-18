@@ -20,13 +20,13 @@
 
                         <div>
                             <label class="form-label">When</label>
-                            <!-- calendar input (auto-initialized by site.js via .js-daterange) -->
+                            
                             <input class="form-control js-daterange"
                                    placeholder="MM/DD/YYYY - MM/DD/YYYY"
                                    data-start-field="ActiveStart"
                                    data-end-field="ActiveEnd" />
 
-                            <!-- hidden fields that PRG stores in session -->
+                           
                             <input type="hidden" asp-for="ActiveStart" />
                             <input type="hidden" asp-for="ActiveEnd" />
                         </div>
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <!-- Results -->
+       
         <div class="col-12 col-lg-8">
             @if (Model.Residences.Count == 0)
             {
@@ -50,7 +50,7 @@
             }
             else
             {
-                <!-- 5-up on very large screens; responsive down to 2-up -->
+               
                 <div class="cards-compact row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-2">
                     @foreach (var r in Model.Residences)
                     {

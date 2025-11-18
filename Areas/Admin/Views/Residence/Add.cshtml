@@ -7,7 +7,9 @@
 <h2>Add New Residence</h2>
 
 <form asp-action="Add" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div asp-validation-summary="None" class="text-danger"></div>
+
+    <input type="hidden" asp-for="ResidencePicture" />
 
     <div class="mb-3">
         <label asp-for="Name" class="form-label"></label>
@@ -24,8 +26,10 @@
     </div>
 
     <div class="mb-3">
-        <label asp-for="OwnerId" class="form-label">Owner ID</label>
-        <input asp-for="OwnerId" class="form-control" />
+        <label asp-for="OwnerId" class="form-label">Owner</label>
+        <select asp-for="OwnerId" asp-items="ViewBag.Owners" class="form-select">
+            <option value="">-- Select Owner --</option>
+        </select>
         <span asp-validation-for="OwnerId" class="text-danger"></span>
     </div>
 
@@ -35,6 +39,7 @@
         <span asp-validation-for="BuiltYear" class="text-danger"></span>
     </div>
 
+    
     <div class="row">
         <div class="col-md-4 mb-3">
             <label asp-for="GuestNumber" class="form-label"></label>
@@ -54,7 +59,7 @@
     </div>
 
     <div class="mb-3">
-        <label asp-for="PricePerNight" class="form-label"></label>
+         <label asp-for="PricePerNight" class="form-label"></label>
         <input asp-for="PricePerNight" class="form-control" />
         <span asp-validation-for="PricePerNight" class="text-danger"></span>
     </div>
@@ -65,5 +70,41 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="~/js/builtyear.js"></script>
+    
+    <script>
+        
+        $(document).ready(function () {
+            
+            var $form = $("form");
+
+            
+            if ($form.length && $form.data("validator")) {
+                var validator = $form.data("validator");
+
+                
+                validator.settings.onfocusout = function(element) {
+                    
+                    $(element).valid();
+                };
+            }
+        });
+
+
+       
+
+        
+        jQuery.validator.addMethod("builtyear", function (value, element, param) {
+            if (value === "") return true; 
+            
+            var year = parseInt(value);
+            var currentYear = new Date().getFullYear();
+            var maxAge = parseInt(param);
+            var minYear = currentYear - maxAge;
+            
+            return !isNaN(year) && year <= currentYear && year >= minYear;
+        });
+
+        
+        jQuery.validator.unobtrusive.adapters.addSingleVal("builtyear", "maxyears");
+    </script>
 }

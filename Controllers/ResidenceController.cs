@@ -10,20 +10,20 @@ public class ResidenceController : Controller
     private readonly AirBnbContext _ctx;
     public ResidenceController(AirBnbContext ctx) => _ctx = ctx;
 
-    // GET /Residence/Index  — filter page (reads retained criteria from session)
+    
     [HttpGet]
     public IActionResult Index()
     {
         var sess = new AirBBSession(HttpContext.Session);
 
-        // hydrate badge from cookie if session is empty
+        
         if (sess.GetReservationIds().Count == 0)
         {
             var jar = new AirBBCookies(Request.Cookies, Response.Cookies);
             sess.SetReservationIds(jar.GetReservationIds());
         }
 
-        // view model
+       
         var model = new HomeViewModel
         {
             ActiveLocationId = sess.GetLoc(),
@@ -38,7 +38,7 @@ public class ResidenceController : Controller
         return View("Index", model);
     }
 
-    // POST /Residence/Filter  — PRG; retain criteria in Session
+    
     [HttpPost]
     public IActionResult Filter(HomeViewModel model)
     {
@@ -47,7 +47,7 @@ public class ResidenceController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    // GET /Residence/Details/{id}
+    
     [HttpGet]
     public IActionResult Details(int id)
     {
@@ -55,7 +55,7 @@ public class ResidenceController : Controller
                                  .FirstOrDefault(r => r.ResidenceId == id);
         if (res == null) return RedirectToAction(nameof(Index));
 
-        // keep current filters to prefill Back-to-Home and date range
+        
         var sess = new AirBBSession(HttpContext.Session);
         ViewData["loc"] = sess.GetLoc();
         ViewData["gu"]  = sess.GetGuests();
@@ -65,7 +65,7 @@ public class ResidenceController : Controller
         return View(res);
     }
 
-    // helpers
+    
     private List<SelectListItem> BuildLocationList()
     {
         var items = _ctx.Locations.OrderBy(l => l.Name)
@@ -89,7 +89,7 @@ public class ResidenceController : Controller
 
         if (DateTime.TryParse(m.ActiveStart, out var s) && DateTime.TryParse(m.ActiveEnd, out var e))
         {
-            // availability overlap: Start <= ReqEnd && End >= ReqStart
+            
             var blocked = _ctx.Reservations
                 .Where(rv => rv.ReservationStartDate <= e && rv.ReservationEndDate >= s)
                 .Select(rv => rv.ResidenceId)
